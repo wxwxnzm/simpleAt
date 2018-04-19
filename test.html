@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <textarea name="" id="a" cols="30" rows="10"></textarea>
+        <button id="b">@</button>
+    </div>
+    <script src="src/at.js"></script>
+    <script>
+        var text = document.querySelector('#a'),
+            btn = document.querySelector('#b');
+
+
+        text.addEventListener('doInsert', function(e) {
+            let str = e.detail.str;
+            var pos = caret.apply(this, ['pos']);
+            text.value = text.value.slice(0, pos) + str + text.value.slice(pos);
+            caret.apply(this, ['pos', (pos + str.length)])
+            this.focus();
+
+            console.log('更新下标： ', caret.apply(this, ['pos']));
+            console.log('更新位置: ', caret.apply(this, ['position']));
+
+        });
+        btn.addEventListener('click', function() {
+            let evt = new CustomEvent("doInsert", {
+                detail: {
+                    str: '@'
+                }
+            });
+            text.dispatchEvent(evt, 'at');
+        })
+    </script>
+</body>
+
+</html>
