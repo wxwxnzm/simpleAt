@@ -149,7 +149,7 @@ Mirror = (function() {
         //     return css[p] = _this.$inputor.css(p);
         // });
         this.css_attr.map(function(p, i) { // 复制样式
-            return css[p] = window.getComputedStyle(_this.$inputor).p;
+            return css[p] = window.getComputedStyle(_this.$inputor)[p];
         })
         return css;
     };
@@ -157,8 +157,9 @@ Mirror = (function() {
     Mirror.prototype.create = function(html) {
         this.$mirror = document.createElement('div'); // node节点
         // this.$mirror.css(this.mirrorCss());
-        for (var cs in this.mirrorCss()) { // 粘贴样式
-            this.$mirror.style[cs] = this.mirrorCss()[cs];
+        var cssMap = this.mirrorCss();
+        for (var cs in cssMap) { // 粘贴样式
+            this.$mirror.style[cs] = cssMap[cs];
         }
         // this.$mirror.html(html);
         this.$mirror.innerHTML = html; // 写入镜子
@@ -241,6 +242,6 @@ var caret = function(method, value, settings) {
         caret = new InputCaret(this);
         return methods[method].apply(caret, [value]);
     } else {
-        return $.error("Method " + method + " does not exist on jQuery.caret");
+        return console.error("Method " + method + " does not exist on jQuery.caret");
     }
 };
